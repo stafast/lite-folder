@@ -1,0 +1,25 @@
+input, select {
+    @apply bg-stone-100 border border-stone-300 rounded px-3 [line-height:2] outline-none
+    focus:ring-3 focus:ring-stone-500/10 w-[200px] max-w-full;
+
+    &.w-full {
+        @apply w-full;
+    }
+}
+
+select {
+    @apply py-1.5 text-sm;
+}
+
+.btn {
+    @apply cursor-pointer px-4 py-2 bg-stone-300 hover:bg-stone-400 text-white font-semibold text-sm
+    rounded-lg focus:outline-none transition-colors;
+
+    &.btn-primary {
+        @apply bg-blue-600 hover:bg-blue-700;
+    }
+
+    &.btn-xs {
+        @apply text-xs;
+    }
+}
