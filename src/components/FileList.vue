@@ -12,10 +12,13 @@ const SIZE_ASC = 'sizeASC';
 const SIZE_DESC = 'sizeDESC';
 
 const fileStore = useFileStore();
+const query = ref('')
 
 const orderBy = ref<typeof NAME_AZ | typeof NAME_ZA | typeof SIZE_ASC | typeof SIZE_DESC | typeof DATETIME_ASC | typeof DATETIME_DESC>(DATETIME_DESC)
 const sortedFiles = computed(() => {
-  return [...fileStore.allFiles].sort((a, b) => {
+  return [...fileStore.allFiles]
+      .filter(file => file.name.toLowerCase().includes(query.value.toLowerCase()))
+      .sort((a, b) => {
     if (orderBy.value === NAME_AZ) return a.name.localeCompare(b.name);
     if (orderBy.value === NAME_ZA) return b.name.localeCompare(a.name);
     if (orderBy.value === SIZE_ASC) return a.size - b.size;
@@ -38,15 +41,20 @@ const handleDelete = (fileId: number) => {
   <div class="overflow-hidden mt-12 rounded-lg border border-stone-400/10 bg-stone-50 shadow-lg"
        v-if="fileStore.allFiles.length">
 
-    <div class="flex justify-end px-6 pt-8 pb-3">
-      <select v-model="orderBy">
-        <option :value="DATETIME_DESC">Newst</option>
-        <option :value="DATETIME_ASC">Oldest</option>
-        <option :value="NAME_AZ">Name (A–Z)</option>
-        <option :value="NAME_ZA">Name (Z–A)</option>
-        <option :value="SIZE_ASC">Smallest</option>
-        <option :value="SIZE_DESC">Greatest</option>
-      </select>
+    <div class="flex justify-between px-6 pt-8 pb-3">
+      <div class="">
+        <input v-model="query" type="text" placeholder="Search …">
+      </div>
+      <div class="">
+        <select v-model="orderBy">
+          <option :value="DATETIME_DESC">Newst</option>
+          <option :value="DATETIME_ASC">Oldest</option>
+          <option :value="NAME_AZ">Name (A–Z)</option>
+          <option :value="NAME_ZA">Name (Z–A)</option>
+          <option :value="SIZE_ASC">Smallest</option>
+          <option :value="SIZE_DESC">Greatest</option>
+        </select>
+      </div>
     </div>
 
     <div class="grid">
@@ -72,7 +80,7 @@ const handleDelete = (fileId: number) => {
         </div>
       </div>
       <div v-auto-animate class="">
-        <div class="grid grid-cols-7 items-center gap-8 px-6 py-5 transition-colors hover:bg-stone-100"
+        <div v-if="sortedFiles.length" class="grid grid-cols-7 items-center gap-8 px-6 py-5 transition-colors hover:bg-stone-100"
              v-for="(file) in sortedFiles" :key="file.id">
           <div class="">
             <template v-if="file.type.includes('image')">
@@ -102,6 +110,7 @@ const handleDelete = (fileId: number) => {
             <button class="btn btn-xs" @click="handleDelete(file.id)">Delete</button>
           </div>
         </div>
+        <div v-else class="px-6 py-5 text-center font-semibold text-sm">Oops! Sorry but no results</div>
       </div>
     </div>
   </div>

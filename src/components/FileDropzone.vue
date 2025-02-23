@@ -66,7 +66,7 @@ const triggerFileInput = () => {
 
 <template>
   <div class="cursor-pointer content-center rounded-lg border border-dashed border-stone-300 bg-stone-50 text-center
-  text-stone-500 transition-colors w-full6 h-30 duration-250 hover:border-stone-400 hover:bg-white hover:text-stone-700"
+  text-stone-500 transition-colors w-full6 h-35 duration-250 hover:border-stone-400 hover:bg-white hover:text-stone-700"
        @dragover.prevent @drop="handleDrop" @click="triggerFileInput">
     <p class="font-medium">Drag'n'drop or click to upload</p>
     <input ref="fileInput" multiple type="file" class="hidden" @change="handleFile"/>
