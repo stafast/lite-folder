@@ -6,7 +6,7 @@ import {useUserStore} from "@/store/user"
 const router = useRouter();
 const userStore = useUserStore();
 
-const username = ref<string>('')
+const username = ref<string>('John')
 const password = ref<string>('978zas+*+a2')
 const loginError = ref<string>('')
 
